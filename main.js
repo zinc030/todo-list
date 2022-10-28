@@ -128,46 +128,58 @@ window.addEventListener('load', () => {
         });
         document.getElementById("numleft").value = incomplete;    
     
-    
-        const task_check_all = document.getElementByID("check-all");
-        const task_all = document.getElementByID("all");
-        const task_active = document.getElementByID("active");
-        const task_completed = document.getElementByID("completed");
-        const task_deletedone = document.getElementByID("delete-done");
-    
-        task_check_all.addEventListener('click', () =>{
-            // const divs = Array.prototype.slice.call(document.querySelectorAll('#task'));
-            // divs.removeChild(divs.firstChild);
-            list_el.parentNode.removeChild(list_el);
-        });
-    
-        task_all.addEventListener('click', () =>{
+        document.getElementById("check-all").addEventListener("click", checkAll);
+        document.getElementById("all").addEventListener("click", filterAll);
+        document.getElementById("active").addEventListener("click", filterActive);
+        document.getElementById("completed").addEventListener("click", filterComp);
+        document.getElementById("delete-done").addEventListener("click", deleteDone);
+
+        function checkAll() {
+            const divs = Array.prototype.slice.call(document.querySelectorAll('#tasks .task'));
+            console.log(divs);
+            //for each divs, check the checkbox
+            divs.forEach(function(div) {
+                div.querySelector('.checkbox').checked = true;
+                div.completed = true;
+                incomplete--;
+            });
+        }
+
+        function filterAll() { 
+            const divs = Array.prototype.slice.call(document.querySelectorAll('div'));  
+            divs.forEach(function(div) {
+                div.style.display = "block";
+            });
+     }
+
+        function filterActive() { 
             const divs = Array.prototype.slice.call(document.querySelectorAll('div'));
-    divs.forEach(function () {
-      //...
-    });filter('all');
-        });
-    
-        task_active.addEventListener('click', () =>{
+            divs.forEach(function(div) {
+                if (div.completed == true) {
+                    div.style.display = "none";
+                } else {
+                    div.style.display = "block";
+                }
+            });
+        }
+        function filterComp() { 
             const divs = Array.prototype.slice.call(document.querySelectorAll('div'));
-            divs.forEach(function () {
-              //...
-            });filter('active');
-        });
-    
-        task_completed.addEventListener('click', () =>{
+            divs.forEach(function(div) {
+                if (div.completed == false) {
+                    div.style.display = "none";
+                } else {
+                    div.style.display = "block";
+                }
+            });
+        }
+        function deleteDone() { 
             const divs = Array.prototype.slice.call(document.querySelectorAll('div'));
-            divs.forEach(function () {
-              //...
-            });filter('completed');
-        });
-    
-        task_deletedone.addEventListener('click', () =>{
-            const divs = Array.prototype.slice.call(document.querySelectorAll('div'));
-    divs.forEach(function () {
-      //...
-    });
-        });
+            divs.forEach(function(div) {
+                if (div.completed == true) {
+                    list_el.removeChild(div);
+                }
+            });
+        }
     });
 
 });
