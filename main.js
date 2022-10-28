@@ -122,8 +122,10 @@ window.addEventListener('load', () => {
         });
 
         task_delete_el.addEventListener('click', () =>{
+            if (task_checkbox_el.checked == false){
+                incomplete--;
+            }
             list_el.removeChild(task_el);
-            incomplete--;
             document.getElementById("numleft").value = incomplete;
         });
         document.getElementById("numleft").value = incomplete;    
@@ -136,17 +138,26 @@ window.addEventListener('load', () => {
 
         function checkAll() {
             const divs = Array.prototype.slice.call(document.querySelectorAll('#tasks .task'));
-            console.log(divs);
-            //for each divs, check the checkbox
-            divs.forEach(function(div) {
+            
+            if (incomplete == 0 || incomplete === 0){
+                divs.forEach(function(div){
+                    div.querySelector('.checkbox').checked = false;
+                    div.completed = false;
+                    incomplete++;
+                }); 
+            }
+            else {
+                divs.forEach(function(div) {
                 div.querySelector('.checkbox').checked = true;
                 div.completed = true;
-                incomplete--;
-            });
+                incomplete = 0;
+            }); 
+            document.getElementById("numleft").value = incomplete;
+        }document.getElementById("numleft").value = incomplete;
         }
 
         function filterAll() { 
-            const divs = Array.prototype.slice.call(document.querySelectorAll('div'));  
+            const divs = Array.prototype.slice.call(document.querySelectorAll('#tasks .task'));  
             divs.forEach(function(div) {
                 div.style.display = "block";
             });
